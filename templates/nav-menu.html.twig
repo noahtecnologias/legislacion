@@ -1,0 +1,378 @@
+<div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+
+                {# ============================================================
+                   INICIO
+                   ============================================================ #}
+
+                <div class="sb-sidenav-menu-heading">Inicio</div>
+
+                {# Mostramos el inicio correspondiente según el rol.
+                   Esto NO controla permisos de módulos. #}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="nav-link" href="{{ path('admin_home') }}">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        Inicio
+                    </a>
+
+                {% elseif is_granted('ROLE_ADMINISTRACION') %}
+                    <a class="nav-link" href="{{ path('administracion_home') }}">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        Inicio
+                    </a>
+
+                {% elseif is_granted('ROLE_OPERADOR') %}
+                    <a class="nav-link" href="{{ path('operador_home') }}">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        Inicio
+                    </a>
+                {% endif %}
+
+
+                {# ============================================================
+                   MÓDULOS
+                   ============================================================ #}
+
+                <div class="sb-sidenav-menu-heading">Módulos</div>
+
+
+                {# ============================================================
+                   USUARIOS
+                   ============================================================ #}
+
+                {% if is_granted('MODULO_USUARIOS') %}
+
+                    <a class="nav-link collapsed"
+                       href="#"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#collapseUsuarios"
+                       aria-expanded="false"
+                       aria-controls="collapseUsuarios">
+
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+
+                        Usuarios
+
+                        <div class="sb-sidenav-collapse-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+                    </a>
+
+                    <div class="collapse"
+                         id="collapseUsuarios"
+                         aria-labelledby="headingUsuarios"
+                         data-bs-parent="#sidenavAccordion">
+
+                        <nav class="sb-sidenav-menu-nested nav">
+
+                            <a class="nav-link"
+                               href="{{ path('admin_usuarios_listado') }}">
+                                Listado
+                            </a>
+
+                            <a class="nav-link"
+                               href="{{ path('admin_usuario_nuevo') }}">
+                                Nuevo
+                            </a>
+
+                        </nav>
+                    </div>
+
+                {% endif %}
+
+
+                {# ============================================================
+                   POTENCIALES
+                   ============================================================ #}
+
+                {% if is_granted('MODULO_POTENCIALES') %}
+
+                    <a class="nav-link collapsed"
+                       href="#"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#collapsePotenciales"
+                       aria-expanded="false"
+                       aria-controls="collapsePotenciales">
+
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+
+                        Potenciales
+
+                        <div class="sb-sidenav-collapse-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+                    </a>
+
+                    <div class="collapse"
+                         id="collapsePotenciales"
+                         aria-labelledby="headingPotenciales"
+                         data-bs-parent="#sidenavAccordion">
+
+                        <nav class="sb-sidenav-menu-nested nav">
+
+                            <a class="nav-link"
+                               href="{{ path('admin_potenciales_listado') }}">
+                                Listado
+                            </a>
+
+                            <a class="nav-link"
+                               href="{{ path('admin_potencial_nuevo') }}">
+                                Nuevo
+                            </a>
+
+                        </nav>
+                    </div>
+
+                {% endif %}
+
+
+                {# ============================================================
+                   POZOS
+                   ============================================================ #}
+
+                {% if is_granted('MODULO_POZO') %}
+
+                    <a class="nav-link"
+                       href="{{ path('admin_mapa') }}">
+
+                        <div class="sb-nav-link-icon">
+                            <i class="fa fa-map"></i>
+                        </div>
+
+                        Pozos
+
+                    </a>
+
+                {% endif %}
+
+
+                {# ============================================================
+                   CONFIGURACIÓN
+                   ============================================================ #}
+
+                {% if is_granted('MODULO_CONFIGURACION') %}
+
+                    <a class="nav-link"
+                       href="{{ path('admin_configuracion') }}">
+
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-wrench"></i>
+                        </div>
+
+                        Configuración
+
+                    </a>
+
+                {% endif %}
+
+
+                {# ============================================================
+                   CERTIFICADOS
+                   ============================================================ #}
+
+                {% if is_granted('MODULO_CERTIFICADO') %}
+
+                    <a class="nav-link collapsed"
+                       href="#"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#collapseCertificados"
+                       aria-expanded="false"
+                       aria-controls="collapseCertificados">
+
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+
+                        Certificados
+
+                        <div class="sb-sidenav-collapse-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+
+                    </a>
+
+                    <div class="collapse"
+                         id="collapseCertificados"
+                         aria-labelledby="headingCertificados"
+                         data-bs-parent="#sidenavAccordion">
+
+                        <nav class="sb-sidenav-menu-nested nav">
+
+                            <a class="nav-link"
+                               href="{{ path('administracion_certificados_listado') }}">
+                                Listado
+                            </a>
+
+                            <a class="nav-link"
+                               href="{{ path('administracion_certificado_nuevo') }}">
+                                Nuevo
+                            </a>
+
+                        </nav>
+                    </div>
+
+                {% endif %}
+
+
+                {# ============================================================
+                   POTENCIALES DIARIOS
+                   ============================================================ #}
+
+                {% if is_granted('MODULO_POTENCIALES_DIARIOS') %}
+
+                    <a class="nav-link collapsed"
+                       href="#"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#collapsePotencialesDiarios"
+                       aria-expanded="false"
+                       aria-controls="collapsePotencialesDiarios">
+
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+
+                        Potenciales Diarios
+
+                        <div class="sb-sidenav-collapse-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+
+                    </a>
+
+                    <div class="collapse"
+                         id="collapsePotencialesDiarios"
+                         aria-labelledby="headingPotencialesDiarios"
+                         data-bs-parent="#sidenavAccordion">
+
+                        <nav class="sb-sidenav-menu-nested nav">
+
+                            <a class="nav-link"
+                               href="{{ path('operador_potencial_diario_listado') }}">
+                                Listado
+                            </a>
+
+                            <a class="nav-link"
+                               href="{{ path('operador_potencial_diario_nuevo') }}">
+                                Carga Diaria
+                            </a>
+
+                        </nav>
+                    </div>
+
+                {% endif %}
+
+
+                {# ============================================================
+                   PRODUCCIÓN DIARIA
+                   ============================================================ #}
+
+                {% if is_granted('MODULO_PRODUCCION_DIARIA') %}
+
+                    <a class="nav-link collapsed"
+                       href="#"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#collapseProduccion"
+                       aria-expanded="false"
+                       aria-controls="collapseProduccion">
+
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+
+                        Producción Diaria
+
+                        <div class="sb-sidenav-collapse-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+
+                    </a>
+
+                    <div class="collapse"
+                         id="collapseProduccion"
+                         aria-labelledby="headingProduccion"
+                         data-bs-parent="#sidenavAccordion">
+
+                        <nav class="sb-sidenav-menu-nested nav">
+
+                            <a class="nav-link"
+                               href="{{ path('operador_produccion_listado') }}">
+                                Listado
+                            </a>
+
+                            <a class="nav-link"
+                               href="{{ path('operador_produccion_nuevo') }}">
+                                Carga Diaria
+                            </a>
+
+                        </nav>
+                    </div>
+
+                {% endif %}
+
+
+                {# ============================================================
+                   SAHARA
+                   ============================================================ #}
+
+                {% if is_granted('MODULO_SAHARA') %}
+
+                    <a class="nav-link collapsed"
+                       href="#"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#collapseSahara"
+                       aria-expanded="false"
+                       aria-controls="collapseSahara">
+
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+
+                        Sahara
+
+                        <div class="sb-sidenav-collapse-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+
+                    </a>
+
+                    <div class="collapse"
+                         id="collapseSahara"
+                         aria-labelledby="headingSahara"
+                         data-bs-parent="#sidenavAccordion">
+
+                        <nav class="sb-sidenav-menu-nested nav">
+
+                            <a class="nav-link"
+                               href="{{ path('app_sahara_index') }}">
+                                Listado Sahara
+                            </a>
+
+                            <a class="nav-link"
+                               href="{{ path('app_sahara_new') }}">
+                                Carga Mensual
+                            </a>
+
+                        </nav>
+                    </div>
+
+                {% endif %}
+
+            </div>
+        </div>
+
+    </nav>
+</div>

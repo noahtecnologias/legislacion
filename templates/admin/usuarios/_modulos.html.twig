@@ -1,0 +1,204 @@
+{#
+    Componente reutilizable para selección de módulos.
+
+    Variables esperadas:
+    - modulos: listado de módulos disponibles
+    - usuario: opcional. En edición contiene los módulos asignados.
+#}
+
+<style>
+    .modulos-container {
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        padding: 1.25rem;
+        background-color: #f8f9fa;
+    }
+
+    .modulos-header {
+        margin-bottom: 1rem;
+    }
+
+    .modulos-header h5 {
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+    }
+
+    .modulos-header p {
+        margin-bottom: 0;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .modulos-actions {
+        margin-bottom: 1rem;
+    }
+
+    .modulos-actions button {
+        font-size: 0.85rem;
+    }
+
+    .modulo-item {
+        position: relative;
+    }
+
+    .modulo-item .form-check-input {
+        position: absolute;
+        opacity: 0;
+    }
+
+    .modulo-item .modulo-label {
+        display: flex;
+        align-items: center;
+        min-height: 70px;
+        padding: 0.85rem 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        background-color: #fff;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .modulo-item .modulo-label:hover {
+        border-color: #adb5bd;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .modulo-item .form-check-input:checked + .modulo-label {
+        border-color: #0d6efd;
+        background-color: #f0f6ff;
+        box-shadow: 0 0 0 1px #0d6efd;
+    }
+
+    .modulo-check {
+        width: 22px;
+        height: 22px;
+        border: 2px solid #adb5bd;
+        border-radius: 5px;
+        margin-right: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .modulo-item .form-check-input:checked + .modulo-label .modulo-check {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .modulo-check i {
+        display: none;
+        color: #fff;
+        font-size: 0.75rem;
+    }
+
+    .modulo-item .form-check-input:checked + .modulo-label .modulo-check i {
+        display: block;
+    }
+
+    .modulo-nombre {
+        font-weight: 500;
+        color: #343a40;
+    }
+</style>
+
+<div class="modulos-container">
+
+    <div class="modulos-header">
+        <div>
+            <h5>
+                <i class="fas fa-th-large me-2"></i>
+                Módulos habilitados
+            </h5>
+
+            <p>
+                Seleccione los módulos a los que tendrá acceso este usuario.
+            </p>
+        </div>
+    </div>
+
+    <div class="modulos-actions">
+        <button
+            type="button"
+            class="btn btn-sm btn-outline-primary"
+            id="seleccionarTodosModulos"
+        >
+            <i class="fas fa-check-double me-1"></i>
+            Seleccionar todos
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-sm btn-outline-secondary"
+            id="deseleccionarTodosModulos"
+        >
+            <i class="fas fa-times me-1"></i>
+            Deseleccionar todos
+        </button>
+    </div>
+
+    <div class="row g-3">
+
+        {% for modulo in modulos %}
+
+            {#
+                Por defecto el módulo no está seleccionado.
+                En edición buscamos si el usuario ya lo tiene asignado.
+            #}
+            {% set seleccionado = false %}
+
+            {% if usuario is defined and usuario.modulos is defined %}
+
+                {% for moduloUsuario in usuario.modulos %}
+
+                    {% if moduloUsuario.id == modulo.id %}
+                        {% set seleccionado = true %}
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endif %}
+
+            <div class="col-12 col-md-6 col-xl-4 modulo-item">
+
+                <input
+                    class="form-check-input modulo-checkbox"
+                    type="checkbox"
+                    name="modulos[]"
+                    value="{{ modulo.id }}"
+                    id="modulo_{{ modulo.id }}"
+                    {% if seleccionado %}checked{% endif %}
+                />
+
+                <label
+                    class="modulo-label"
+                    for="modulo_{{ modulo.id }}"
+                >
+
+                    <span class="modulo-check">
+                        <i class="fas fa-check"></i>
+                    </span>
+
+                    <span class="modulo-nombre">
+                        {{ modulo.nombre }}
+                    </span>
+
+                </label>
+
+            </div>
+
+        {% else %}
+
+            <div class="col-12">
+                <div class="alert alert-info mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No hay módulos disponibles.
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html style="height: 100%; margin: 0; padding: 0;">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        html, body { height: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; overflow: hidden; }
+        #map { position: absolute; top: 0; bottom: 0; left: 0; right: 0; height: 100% !important; width: 100% !important; background: #000; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // 1. Configuración de capas
+            var satelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+            var hibrido = L.tileLayer('https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3']
+            });
+
+            var map = L.map('map', {
+                center: [-23.64, -64.60],
+                zoom: 14,
+                layers: [hibrido] // Iniciamos con híbrido para ver nombres de caminos
+            });
+
+            // 2. Definición de Iconos de Colores
+            const crearIcono = (color) => {
+                return new L.Icon({
+                    iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                });
+            };
+
+            const iconos = {
+                'Inactivo': crearIcono('gold'),    // Amarillo
+                'Productores': crearIcono('blue'), // Azul
+                'Abandonados': crearIcono('red'),  // Rojo
+                'Sumidero': crearIcono('green')    // Verde
+            };
+
+            // 3. Listado de Pozos (Datos de tu tabla convertidos)
+            var pozos = [
+                // INACTIVOS (Amarillos)
+                { lat: -23.612805, lng: -64.592025, situ: "Inactivo", nom: "YPF.J.Ca-19" },
+                { lat: -23.621880, lng: -64.590175, situ: "Inactivo", nom: "YPF.J.Ca-17" },
+                { lat: -23.627861, lng: -64.582361, situ: "Inactivo", nom: "YPF.J.Ca-20" },
+                { lat: -23.636600, lng: -64.583997, situ: "Inactivo", nom: "YPF.J.Ca-18" },
+                { lat: -23.641438, lng: -64.587680, situ: "Inactivo", nom: "YPF.J.Ca.a-25" },
+                { lat: -23.641027, lng: -64.591608, situ: "Inactivo", nom: "YPF.J.Ca-8" },
+                { lat: -23.637358, lng: -64.605472, situ: "Inactivo", nom: "YPF.J.Ca.a-24" },
+                { lat: -23.635805, lng: -64.610969, situ: "Inactivo", nom: "YPF.J.Ca-12" },
+                { lat: -23.643638, lng: -64.613913, situ: "Inactivo", nom: "YPF.J.Ca-26" },
+                { lat: -23.644486, lng: -64.608322, situ: "Inactivo", nom: "YPF.J.Ca-34" },
+                { lat: -23.644647, lng: -64.605830, situ: "Inactivo", nom: "YPF.J.Ca.x-01" },
+                { lat: -23.650583, lng: -64.614719, situ: "Inactivo", nom: "YPF.J.Ca-09" },
+                { lat: -23.658788, lng: -64.607391, situ: "Inactivo", nom: "YPF.J.Ca-07" },
+                // PRODUCTORES (Azules)
+                { lat: -23.617097, lng: -64.600833, situ: "Productores", nom: "YPF.J.Ca.xp-04" },
+                { lat: -23.619675, lng: -64.594733, situ: "Productores", nom: "YPF.J.Ca.a-35" },
+                { lat: -23.624722, lng: -64.599052, situ: "Productores", nom: "YPF.J.Ca-15" },
+                { lat: -23.627905, lng: -64.596361, situ: "Productores", nom: "YPF.J.Ca.a-32" },
+                { lat: -23.630238, lng: -64.590533, situ: "Productores", nom: "YPF.J.Ca-10" },
+                { lat: -23.630822, lng: -64.597886, situ: "Productores", nom: "YPF.J.Ca.a-37" },
+                { lat: -23.631950, lng: -64.602783, situ: "Productores", nom: "YPF.J.Ca.xp-02" },
+                { lat: -23.634838, lng: -64.599380, situ: "Productores", nom: "YPF.J.Ca-39" },
+                { lat: -23.637505, lng: -64.595097, situ: "Productores", nom: "YPF.J.Ca-38" },
+                { lat: -23.640325, lng: -64.601116, situ: "Productores", nom: "YPF.J.Ca-23" },
+                { lat: -23.642111, lng: -64.598108, situ: "Productores", nom: "YPF.J.Ca-40" },
+                { lat: -23.645808, lng: -64.598502, situ: "Productores", nom: "YPF.J.Ca.a-30" },
+                // ABANDONADOS (Rojos)
+                { lat: -23.624794, lng: -64.607155, situ: "Abandonados", nom: "YPF.J.Ca-14" },
+                { lat: -23.624944, lng: -64.605075, situ: "Abandonados", nom: "YPF.J.Ca.a-36" },
+                { lat: -23.644527, lng: -64.605900, situ: "Abandonados", nom: "YPF.J.Ca.s-1001" },
+                { lat: -23.645302, lng: -64.605275, situ: "Abandonados", nom: "YPF.J.Ca.s-1002" },
+                { lat: -23.644191, lng: -64.592663, situ: "Abandonados", nom: "YPF.J.Ca.xp-41" },
+                { lat: -23.647108, lng: -64.584944, situ: "Abandonados", nom: "YPF.J.Ca-13" },
+                { lat: -23.650969, lng: -64.602663, situ: "Abandonados", nom: "YPF.J.Ca.a-29" },
+                { lat: -23.652997, lng: -64.594136, situ: "Abandonados", nom: "YPF.J.Ca.e-06" },
+                { lat: -23.663527, lng: -64.596552, situ: "Abandonados", nom: "YPF.J.Ca-11" },
+                // SUMIDERO (Verde)
+                { lat: -23.642016, lng: -64.602852, situ: "Sumidero", nom: "YPF.J.Ca.s-1003" }
+            ];
+
+            // 4. Agregar marcadores al mapa
+            var group = new L.featureGroup();
+
+            pozos.forEach(function(p) {
+                var iconoActual = iconos[p.situ] || iconos['Inactivo'];
+                
+                L.marker([p.lat, p.lng], { icon: iconoActual })
+                 .bindPopup(`<b>${p.nom}</b><br>Situación: ${p.situ}`)
+                 .addTo(group);
+            });
+
+            group.addTo(map);
+            map.fitBounds(group.getBounds(), {padding: [50, 50]});
+
+            // Control de capas
+            L.control.layers({"Híbrido": hibrido, "Satelital Puro": satelite}).addTo(map);
+
+            setTimeout(() => { map.invalidateSize(); }, 500);
+        });
+    </script>
+</body>
+</html>

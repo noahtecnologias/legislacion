@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inicio - Jujuy Hidrocarburos{% endblock %}
+
+{% block body %}
+<style>
+    /* Estilo para el contenedor que está en base.html.twig */
+    #layoutSidenav_content {
+        background-color: #0e3c28; /* Color de respaldo mientras carga la imagen */
+    }
+
+    .hero-container {
+        position: relative;
+        width: 100%;
+        /* Calculamos el alto: 100% de la pantalla menos la navbar (aprox 56px) */
+        height: calc(100vh - 56px); 
+        background-image: url('{{ asset('images/fondo_hidrocarburos.jpg') }}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* Ajusta el 0.7 para más o menos oscuridad (transparencia) */
+        background: rgba(14, 60, 40, 0.7); 
+        z-index: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        color: white;
+        text-align: center;
+        max-width: 900px;
+        padding: 20px;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-weight: 300;
+        opacity: 0.9;
+    }
+
+    /* Ocultamos el footer solo en el inicio para que la imagen sea la protagonista */
+    footer {
+        display: none !important;
+    }
+</style>
+
+<main class="p-0 m-0">
+    <div class="hero-container">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Exploración, explotación, desarrollo e industrialización de proyectos hidrocarburíferos.
+            </h1>
+            <p class="hero-subtitle">
+                JUJUY HIDROCARBUROS S.A.U.
+            </p>
+        </div>
+    </div>
+</main>
+{% endblock %}

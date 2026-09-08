@@ -1,0 +1,24 @@
+<script>
+    var baseUrl = "{{ app.request.getSchemeAndHttpHost() }}{{ app.request.getBaseURL() }}/";
+    var baseUrlTemplates = "{{ app.request.getSchemeAndHttpHost() }}{{ app.request.getBaseURL() }}/app/";
+    baseUrlTemplates = baseUrlTemplates.replace(/(app.php|app_dev.php)\//, "");
+    var baseUrlAdmin = baseUrl + "admin/";
+    var baseUrlPublic = baseUrl + "public/";
+    
+    
+    
+    {% if is_granted('ROLE_ADMIN') %} 
+        var baseUrlByRol = baseUrl + "admin/";
+    {% endif %}
+    {% if is_granted('ROLE_OPERADOR') %} 
+        var baseUrlByRol = baseUrl + "operador/";
+    {% endif %}
+    {% if is_granted('ROLE_ADMINISTRACION') %} 
+        var baseUrlByRol = baseUrl + "administracion/";
+    {% endif %}
+    
+    var baseUrlCommon = baseUrl + "common/";
+    var baseUrlRedirect = "";
+    var urlImages = "";
+    var urlLogos = "";
+</script>

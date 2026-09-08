@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.1",
+    "bootstrap": "^5.3.3",
+    "chart.js": "^2.9.4",
+    "decimal.js": "^10.6.0",
+    "fullcalendar": "^6.1.15",
+    "jquery": "^3.7.1",
+    "jquery-validation": "^1.21.0",
+    "simple-datatables": "^9.2.1",
+    "sweetalert": "^1.1.3"
+  }
+}

@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Nueva Carga Mensual</h1>
+        <div class="card mb-4">
+            <form id="formSahara">
+                {# Campo oculto para el ID en caso de edición #}
+                <input type="hidden" name="id" value="{{ registro.id ?? '' }}">
+                
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input class="form-control" name="fecha" id="fecha" type="text" 
+                                       value="{{ registro ? registro.fecha|date('d/m/Y') : "now"|date("d/m/Y") }}" />
+                                <label>Fecha (Mes/Año)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="text-primary">Producción de Petróleo</h6><hr>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input class="form-control" name="oil_dc" type="text" placeholder="0,00"
+                                       value="{{ registro ? registro.oilDc|number_format(2, ',', '') : '' }}"/>
+                                <label>Oil [m³/DC]</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input class="form-control" name="oil" type="text" placeholder="0,00"
+                                       value="{{ registro ? registro.oil|number_format(2, ',', '') : '' }}"/>
+                                <label>Oil [m³]</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input class="form-control" name="npp" type="text" placeholder="0,00"
+                                       value="{{ registro ? registro.npP|number_format(2, ',', '') : '' }}"/>
+                                <label>NpP [m³] (Acumulado)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="text-info">Producción de Agua</h6><hr>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" name="agua_dc" type="text" placeholder="0,00"
+                                       value="{{ registro ? registro.aguaDc|number_format(2, ',', '') : '' }}"/>
+                                <label>Agua [m³/DC]</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" name="wpp" type="text" placeholder="0,00"
+                                       value="{{ registro ? registro.wpP|number_format(2, ',', '') : '' }}"/>
+                                <label>WpP [m³] (Acumulado)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="text-success">Producción de Gas</h6><hr>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" name="gas_dc" type="text" placeholder="0,00"
+                                       value="{{ registro ? registro.gasDc|number_format(2, ',', '') : '' }}"/>
+                                <label>Gas [Mm³/DC]</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" name="gas" type="text" placeholder="0,00"
+                                       value="{{ registro ? registro.gas|number_format(2, ',', '') : '' }}"/>
+                                <label>Gas [Mm³]</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="text-danger">Indicadores y Mezcla</h6><hr>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input class="form-control" name="bruta" type="text" placeholder="0,00"
+                                       value="{{ registro ? registro.bruta|number_format(2, ',', '') : '' }}"/>
+                                <label>Bruta (Agua DC + Oil DC)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input class="form-control" name="porcentaje_w" type="text" placeholder="0,00"
+                                       value="{{ registro ? registro.porcentajeW|number_format(2, ',', '') : '' }}"/>
+                                <label>%W (Porcentaje Agua)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input class="form-control" name="rgp" type="text" placeholder="0,00"
+                                       value="{{ registro ? registro.rgp|number_format(2, ',', '') : '' }}"/>
+                                <label>RGP</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="{{ path('app_sahara_index') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="button" id="guardarSahara" class="btn btn-primary">
+                        {{ registro ? 'Actualizar Carga' : 'Guardar Carga Sahara' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        var baseUrlModulo = "{{ app.request.getSchemeAndHttpHost() }}{{ app.request.getBaseURL() }}/operador/";
+    </script>
+    <script src="{{ asset('js/controller/sahara/sahara_nuevo.js') }}"></script>
+{% endblock %}

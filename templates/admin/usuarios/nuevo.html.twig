@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{title}}
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Nuevo Usuario</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-user me-1"></i>
+                        Usuario
+                    </div>
+                    <div class="card-body">
+                        <form id="formUsuario">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3 mb-md-0">
+                                        <input class="form-control" id="nombre" name="nombre" type="text" placeholder="Nombre/s" />
+                                        <label for="nombre">Nombre/s</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="apellido" name="apellido" type="text" placeholder="Apellido/s" />
+                                        <label for="apellido">Apellido/s</label>
+                                    </div>                                        
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3 mb-md-0">
+                                        <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" />
+                                        <label for="email">Correo Electrónico</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="celular" name="celular" type="text" placeholder="Sin 0 ni 15"  />
+                                        <label for="celular">Celular</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3 mb-md-0">
+                                        <select class="form-control" id="rol" name="rol">
+                                            {% for rol in roles %}
+                                                <option value="{{rol.id}}">{{rol.descripcion}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" id="activo" name="activo" type="checkbox" checked />
+                                        <label class="form-check-label" for="activo">Activo</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3 mb-md-0">
+                                        <input class="form-control" id="password" name="password" type="password" placeholder="Create a password" />
+                                        <label for="inputPassword">Password</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3 mb-md-0">
+                                        <input class="form-control" id="password1" name="password1" type="password" placeholder="Confirm password" />
+                                        <label for="password1">Confirm Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            {% include 'admin/usuarios/_modulos.html.twig' %}
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row mb-3">
+                            <div class="d-grid gap-2 d-md-block">
+                                <a href="{{ path('admin_usuarios_listado') }}" id="volver" title="Volver" class="btn btn-secondary" >
+                                    Volver
+                                </a>
+                                <buttom type="buttom" id="nuevoUsuario" class="btn btn-primary" >
+                                    Guardar
+                                </buttom>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        const usuarioNuevoUrl = "{{ path('admin_ajax_usuario_nuevo') }}";
+        const usuariosListadoUrl = "{{ path('admin_usuarios_listado') }}";
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#seleccionarTodosModulos').on('click', function () {
+                $('.modulo-checkbox').prop('checked', true);
+            });
+
+            $('#deseleccionarTodosModulos').on('click', function () {
+                $('.modulo-checkbox').prop('checked', false);
+            });
+
+        });
+    </script>
+    <script src="{{ asset('js/controller/usuario/usuarioNuevo.js') }}"></script>
+{% endblock %}

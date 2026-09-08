@@ -1,0 +1,129 @@
+{% extends 'base_login.html.twig' %}
+
+{% block title %}Jujuy Hidrocarburos | Ingreso{% endblock %}
+
+{% block body %}
+    <style>
+        /* Fondo sólido institucional para toda la pantalla */
+        section.bg-institucional {
+            background-color: #08261a !important; /* Verde muy oscuro (como la navbar) */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Personalización de la tarjeta de login */
+        .card-login {
+            border: none;
+            border-top: 5px solid #0e3c28 !important; /* Detalle verde más claro arriba */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .card-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        /* Botón Ingresar */
+        .btn-verde {
+            background-color: #0e3c28 !important;
+            border-color: #0e3c28 !important;
+            color: #ffffff !important;
+            transition: all 0.3s ease;
+        }
+
+        .btn-verde:hover {
+            background-color: #155d3e !important;
+            border-color: #155d3e !important;
+            transform: translateY(-1px);
+        }
+
+        /* Links */
+        .link-institucional {
+            color: #0e3c28 !important;
+            font-weight: 500;
+        }
+
+        .link-institucional:hover {
+            color: #155d3e !important;
+            text-decoration: underline !important;
+        }
+
+        /* Footer del login */
+        #layoutAuthentication_footer {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
+
+    <section class="bg-institucional">
+        <div id="layoutAuthentication" class="w-100">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5">
+                                <div class="card card-login rounded-lg mt-5">
+                                    <div class="card-header">
+                                        <h3 class="text-center font-weight-light my-4 text-dark">
+                                            Jujuy Hidrocarburos
+                                        </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <form method="post">
+                                            {% if error %}
+                                                <div class="alert alert-danger">
+                                                    Credenciales incorrectas.
+                                                </div>
+                                            {% endif %}
+                                            
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" type="email" value="{{ last_username }}" name="_username" id="username" placeholder="name@example.com" required />
+                                                <label for="username">Correo Electrónico</label>
+                                            </div>
+                                            
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" name="_password" id="password" type="password" placeholder="Contraseña" required />
+                                                <label for="password">Contraseña</label>
+                                            </div>
+                                            
+                                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                            
+                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="small link-institucional" href="{{ path('public_restablecer_password') }}">
+                                                    ¿Olvidaste la contraseña?
+                                                </a>
+                                                <button class="btn btn-verde px-4" type="submit">Ingresar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            
+            <div id="layoutAuthentication_footer">
+                <footer class="py-4 mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-center small">
+                            <div class="text-white-50">
+                                Copyright &copy; Jujuy Hidrocarburos <span id="year"></span>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#year").text(new Date().getFullYear());
+        });
+    </script>
+{% endblock %}

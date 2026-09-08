@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{title}}
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        #datatablesSimple td:nth-child(6) {
+            min-width: 250px;
+        }
+
+        #datatablesSimple .badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Listado de usuarios</h1>
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <a href="{{ path('admin_usuario_nuevo') }}" title="Nuevo Usuario" class="btn btn-primary">Nuevo</a>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-users me-1"></i>
+                Usuarios
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Correo electrónico</th>
+                            <th>Celular</th>
+                            <th>Rol</th>
+                            <th>Módulos</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <div class="row mb-3">
+                    <div class="d-grid gap-2 d-md-block">
+                        <a href="{{ homeUrl }}" id="volerPerfil" title="Volver" class="btn btn-secondary" >
+                            Volver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('node_modules/simple-datatables/dist/umd/simple-datatables.js') }}"></script>
+
+    <script>
+        var rutasUsuario = {
+            listado: "{{ path('admin_usuarios_listado') }}",
+            nuevo: "{{ path('admin_usuario_nuevo') }}",
+            editar: "{{ path('admin_usuario_update', {'id': '__ID__'}) }}",
+            buscar: "{{ path('admin_ajax_usuario_listado') }}",
+            crear: "{{ path('admin_ajax_usuario_nuevo') }}",
+            actualizar: "{{ path('admin_ajax_usuario_update') }}",
+            eliminar: "{{ path('admin_ajax_usuario_delete', {'id': '__ID__'}) }}"
+        };
+    </script>
+
+    <script src="{{ asset('js/controller/usuario/usuarios.js') }}"></script>
+{% endblock %}

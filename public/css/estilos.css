@@ -1,0 +1,79 @@
+.error {
+    color: #ff0000 !important;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block;
+}
+
+input.error,
+select.error {
+    border: 2px solid red;
+}
+
+label.error {
+    display: contents;
+    margin-top: 20px;
+    color: red;
+}
+
+.error.required {
+    color: #ff0000;
+}
+
+
+.working{position: relative;}
+.working:after{
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    opacity: .8;
+    background: rgba(247, 247, 247, 1) url('../images/ajax-loader.gif') no-repeat center center;
+    z-index: 999;
+}
+
+/* 1. CAMBIO DE COLOR NAVBAR SUPERIOR */
+.sb-topnav.navbar.bg-dark {
+    /* Un verde más oscuro para la parte superior */
+    background-color: #08261a !important; 
+}
+
+/* 2. CAMBIO DE COLOR SIDEBAR LATERAL */
+.sb-sidenav-dark {
+    /* El verde corporativo de la imagen */
+    background-color: #0e3c28 !important; 
+}
+
+/* 3. AJUSTE DE LOS TÍTULOS (Inicio, Módulos) */
+.sb-sidenav-dark .sb-sidenav-menu-heading {
+    color: rgba(255, 255, 255, 0.5); /* Blanco semitransparente */
+}
+
+/* 4. AJUSTE DE LOS LINKS Y HOVER (Cuando pasas el mouse) */
+.sb-sidenav-dark .sb-sidenav-menu .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.sb-sidenav-dark .sb-sidenav-menu .nav-link:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1); /* Efecto de brillo al pasar el mouse */
+}
+
+.sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-nav-link-icon {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* 5. COLOR DEL FOOTER DEL MENÚ (donde suele decir "Logueado como") */
+.sb-sidenav-dark .sb-sidenav-footer {
+    background-color: #061d14 !important;
+}
+
+/* 6. LOGO / BRAND */
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+

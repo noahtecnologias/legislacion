@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mapa de Pozos | Jujuy Hidrocarburos{% endblock %}
+
+{% block body %}
+    {# Usamos estilos inline para que ninguna hoja de CSS externa nos gane #}
+    <div id="map-parent" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 800px; background: white; z-index: 5;">
+        <iframe src="{{ path('admin_mapa_render') }}" 
+                id="map-iframe"
+                style="width: 100% !important; height: 100% !important; min-height: 100vh !important; border: none !important; display: block !important;">
+        </iframe>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    /* Forzamos al contenedor de la base a no recortar el contenido */
+    #layoutSidenav_content {
+        position: relative !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+        display: block !important;
+    }
+    footer { display: none !important; }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    function ajustarAltura() {
+        var altoVentana = window.innerHeight;
+        // Ajustamos el alto del iframe manualmente por JS para asegurar que no colapse
+        var iframe = document.getElementById('map-iframe');
+        if (iframe) {
+            iframe.style.height = altoVentana + "px";
+        }
+    }
+
+    window.addEventListener('load', ajustarAltura);
+    window.addEventListener('resize', ajustarAltura);
+    
+    // Ejecutar inmediatamente
+    ajustarAltura();
+</script>
+{% endblock %}

@@ -1,0 +1,7 @@
+# api specific parameters
+parameters:
+    secret: '%env(SECRET)%'
+    jwt_key_pass_phrase: '%env(JWT_KEY_PASS_PHRASE)%'
+    system_base_url: '%env(SYSTEM_BASE_URL)%'
+    mailer_from: '%env(MAILER_FROM)%'
+    metodo_envio_email: '%env(METODO_ENVIO_EMAIL)%'

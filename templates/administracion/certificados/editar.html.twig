@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Certificado{% endblock %}
+
+{% block body %}
+<main>
+<div class="container-fluid px-4">
+
+<h1 class="mt-4">Editar Certificado</h1>
+
+<div class="card">
+
+<div class="card-body">
+
+<form id="formCertificado">
+
+<input type="hidden" id="_id" name="_id" value="{{ certificado.id }}">
+
+<!-- ================= DATOS BASE ================= -->
+<div class="row mb-3">
+
+    <div class="col-md-2">
+        <div class="form-floating">
+            <input class="form-control" id="numero" name="numero" value="{{ certificado.numero }}" disabled>
+            <label>Número</label>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="form-floating">
+            <input class="form-control" id="destino" name="destino" value="{{ certificado.destino }}">
+            <label>Destino</label>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="form-floating">
+            <input class="form-control" id="fecha" type="date" name="fecha" value="{{ certificado.fecha|date('Y-m-d') }}">
+            <label>Fecha</label>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= BASE CÁLCULO ================= -->
+<div class="row mb-3">
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input class="form-control" id="metrosCubicos" name="metrosCubicos" value="{{ certificado.metros_cubicos|number_format(3, ',', '.')  }}">
+            <label>Metros cúbicos</label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input class="form-control" id="valorBarril" name="valorBarril" value="{{ certificado.valor_barril|number_format(4, ',', '.')  }}" readonly>
+            <label>Valor barril</label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input class="form-control" id="cantidadBarriles" name="cantidadBarriles" value="{{ certificado.cantidad_barriles|number_format(2, ',', '.')  }}" readonly>
+            <label>Cant. Barriles</label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input class="form-control" id="precioBarrilUsd" name="precioBarrilUsd" value="{{ certificado.precio_barril_usd|number_format(2, ',', '.')  }}">
+            <label>Precio USD</label>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= DÓLARES ================= -->
+<h5>Dólares</h5>
+
+<div class="row mb-3">
+
+    <div class="col-md-4">
+        <div class="form-floating">
+            <input class="form-control" id="dolarNeto" name="dolarNeto" value="{{ certificado.dolar_neto|number_format(2, ',', '.') }}" readonly>
+            <label>Neto USD</label>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-floating">
+            <input class="form-control" id="dolarIva" name="dolarIva" value="{{ certificado.dolar_iva|number_format(2, ',', '.') }}" readonly>
+            <label>IVA USD</label>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-floating">
+            <input class="form-control" id="dolarTotal" name="dolarTotal" value="{{ certificado.dolar_total|number_format(2, ',', '.') }}" readonly>
+            <label>Total USD</label>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= PESOS ================= -->
+<h5>Pesos</h5>
+
+<div class="row mb-3">
+
+    <div class="col-md-4">
+        <div class="form-floating">
+            <input class="form-control" id="cotizacionUsd" name="cotizacionUsd" value="{{ certificado.cotizacion_usd|number_format(2, ',', '.') }}">
+            <label>Cotización USD</label>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-floating">
+            <input class="form-control" id="pesoNeto" name="pesoNeto" value="{{ certificado.peso_neto|number_format(2, ',', '.') }}" readonly>
+            <label>Neto ARS</label>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-floating">
+            <input class="form-control" id="pesoIva" name="pesoIva" value="{{ certificado.peso_iva|number_format(2, ',', '.') }}" readonly>
+            <label>IVA ARS</label>
+        </div>
+    </div>
+
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-4">
+        <div class="form-floating">
+            <input class="form-control" id="pesoTotal" name="pesoTotal" value="{{ certificado.peso_total|number_format(2, ',', '.') }}" readonly>
+            <label>Total ARS</label>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="form-floating">
+            <input class="form-control" id="observacion" name="observacion" value="{{ certificado.observacion ?? null}}">
+                <label>Observación</label>
+        </div>
+    </div>
+
+</div>
+
+</form>
+
+</div>
+
+<div class="card-footer">
+    <a href="{{ path('administracion_certificados_listado') }}" class="btn btn-secondary">
+        Volver
+    </a>
+    <button class="btn btn-primary" id="guardarCertificado">
+        Guardar
+    </button>
+</div>
+
+</div>
+
+</div>
+</main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var baseUrlModulo = "{{ app.request.getSchemeAndHttpHost() }}{{ app.request.getBaseURL() }}/administracion/";
+    </script>
+    <script src="{{ asset('node_modules/decimal.js/decimal.js') }}"></script>
+    <script src="{{ asset('js/controller/certificado/editar.js') }}"></script>
+{% endblock %}

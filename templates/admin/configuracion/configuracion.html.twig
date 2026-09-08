@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Configuración | Jujuy Hidrocarburos{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+
+    <div class="card">
+        <div class="card-header">
+            Configuración General
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="valorBarril" class="form-label">Valor del Barril</label>
+                <input type="text" class="form-control" id="valorBarril" value="{{ data.valorBarril|number_format(4, ',', '.') }}">
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row mb-3">
+                <div class="d-grid gap-2 d-md-block">
+                    <a href="{{ homeUrl }}" id="volver" title="Volver" class="btn btn-secondary" >
+                        Volver
+                    </a>
+                    <button type="button" class="btn btn-primary" id="btnGuardarConfiguracion">
+                        Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var baseUrlModulo = "{{ app.request.getSchemeAndHttpHost() }}{{ app.request.getBaseURL() }}/admin/";
+    </script>
+    <script src="{{ asset('js/controller/configuracion/editar.js') }}"></script>
+{% endblock %}

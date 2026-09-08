@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Jujuy Hidrocarburos{% endblock %}</title>
+        
+        {# Estilos del tema #}
+        <link rel="stylesheet" href="{{ asset('node_modules/simple-datatables/dist/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('node_modules/sweetalert/dist/sweetalert.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
+    </head>
+    {% include 'config.html.twig' %}
+    <body>
+        {# Navbar, Sidebar, etc., según el diseño del tema SB Admin #}
+        {% block body %}
+        {% endblock %}
+        {# Scripts del tema #}
+        <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('js/scripts.js') }}"></script>
+        <script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
+        <script src="{{ asset('node_modules/jquery-validation/dist/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('node_modules/@fortawesome/fontawesome-free/js/all.min.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

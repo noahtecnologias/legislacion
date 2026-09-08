@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Detalle</h1>
+            <div class="row">
+                <div class="col-md-12 text-end">
+                    <a href="{{ path('operador_reserva_nueva', {'id': data.id}) }}" title="Nueva Reserva" class="btn btn-primary">Nueva reserva</a>
+                </div>
+            </div>
+            <br/>
+            <div class="row justify-content-center">
+                {# Cabaña 1 #}
+                <div class="col-xl-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <h4><i class="fas fa-house-chimney me-1"></i>{{ data.nombre }}</h4>
+                                    <input type="hidden" name="cabania_id" id="cabania_id" value="{{ data.id }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="cabania" width="100%" height="40%">
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row mb-3">
+                                <div class="d-grid gap-2 d-md-block">
+                                    <a href="{{ path('operador_home') }}" id="volerPerfil" title="Volver" class="btn btn-secondary" >
+                                        Volver
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/controller/cabania/detalle.js') }}"></script>
+{% endblock %}
