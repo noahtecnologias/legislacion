@@ -32,7 +32,7 @@ class ConfiguracionController extends BaseController
     public function configuracion() {
         $this->denyAccessUnlessGranted(ModuloPermission::CONFIGURACION);
         $this->addBreadCrumb("Inicio", true);
-        $this->setTitle("Jujuy Hidrocarburos | Configuración");
+        $this->setTitle("Legislación | Configuración");
         $configuracion = $this->configuracionService->getConfiguracion();
         $this->data['data'] = $configuracion;
         $this->data['homeUrl'] = $this->generateUrl($this->getHomeRoute());

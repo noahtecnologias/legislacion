@@ -31,7 +31,7 @@ class UsuarioController extends BaseController
     public function usuariosListado() {
         $this->denyAccessUnlessGranted(ModuloPermission::USUARIOS);
         $usuario = $this->getUser();
-        $this->setTitle("Jujuy Hidrocarburos | Usuarios");
+        $this->setTitle("Legislación | Usuarios");
         $this->data['usuario'] = $usuario;
         $this->data['data'] = null;
         $this->data['homeUrl'] = $this->generateUrl($this->getHomeRoute());
@@ -72,7 +72,7 @@ class UsuarioController extends BaseController
     public function usuarioNuevo(SerializerInterface $serializer) {
         $this->denyAccessUnlessGranted(ModuloPermission::USUARIOS);
         $usuario = $this->getUser();
-        $this->setTitle("Jujuy Hidrocarburos | Nuevo Usuario");
+        $this->setTitle("Legislación | Nuevo Usuario");
         $roles = $this->usuarioService->getRoles($serializer);
         $modulos = $this->moduloService->getModulos($serializer);
         $this->data['roles'] = $roles;
@@ -109,7 +109,7 @@ class UsuarioController extends BaseController
     #[Route('/admin/usuario/{id}', name: 'admin_usuario_update')]
     public function updateNuevo($id, SerializerInterface $serializer) {;
         $this->denyAccessUnlessGranted(ModuloPermission::USUARIOS);
-        $this->setTitle("Jujuy Hidrocarburos | Modificar Usuario");
+        $this->setTitle("Legislación | Modificar Usuario");
         $usuario = $this->usuarioService->getById($id, $serializer);
         $roles = $this->usuarioService->getRoles($serializer);
         $modulos = $this->moduloService->getModulos($serializer);

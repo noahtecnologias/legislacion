@@ -31,7 +31,7 @@ class CompraController extends BaseController
     public function comprasListado() {
         $this->denyAccessUnlessGranted(ModuloPermission::COMPRAS);
         $compra = $this->getUser();
-        $this->setTitle("Jujuy Hidrocarburos | Compras");
+        $this->setTitle("Legislación | Compras");
         $this->data['compra'] = $compra;
         $this->data['data'] = null;
         $this->data['homeUrl'] = $this->generateUrl($this->getHomeRoute());
@@ -73,7 +73,7 @@ class CompraController extends BaseController
     {
         $this->denyAccessUnlessGranted(ModuloPermission::COMPRAS);
 
-        $this->setTitle("Jujuy Hidrocarburos | Nueva Compra");
+        $this->setTitle("Legislación | Nueva Compra");
 
         $departamentos = $this->compraService->getDepartamentos();
 
@@ -115,7 +115,7 @@ class CompraController extends BaseController
     {
         $this->denyAccessUnlessGranted(ModuloPermission::COMPRAS);
 
-        $this->setTitle("Jujuy Hidrocarburos | Modificar Compra");
+        $this->setTitle("Legislación | Modificar Compra");
 
         $compra = $this->compraService->getById($id);
 

@@ -44,7 +44,7 @@ class HomeController extends BaseController
     {
         $this->validarAdmin();
         $this->addBreadCrumb("Inicio", true);
-        $this->setTitle("Jujuy Hidrocarburos | Inicio");
+        $this->setTitle("Legislación | Inicio");
         return $this->render(
             'admin/home.html.twig', $this->data
         );
@@ -53,7 +53,7 @@ class HomeController extends BaseController
     #[Route('/admin/perfil', name: 'admin_perfil')]
     public function perfil(SerializerInterface $serializer) {
         $this->validarAdmin();
-        $this->setTitle("Jujuy Hidrocarburos | Perfil");
+        $this->setTitle("Legislación | Perfil");
         $this->addBreadCrumb("Inicio", false, "admin_home");
         $this->addBreadCrumb("Perfil", true);
         
@@ -95,7 +95,7 @@ class HomeController extends BaseController
     public function mapaPozos() {
         $usuario = $this->getUser();
         $this->denyAccessUnlessGranted(ModuloPermission::POZO);
-        $this->setTitle("Jujuy Hidrocarburos | Usuarios");
+        $this->setTitle("Legislación | Usuarios");
         $this->addBreadCrumb("Inicio", false, "admin_home");
         $this->addBreadCrumb("Usuarios", true);
         $this->data['usuario'] = $usuario;

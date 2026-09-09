@@ -31,7 +31,7 @@ class VotoController extends BaseController
     public function votosListado() {
         $this->denyAccessUnlessGranted(ModuloPermission::VOTOS);
         $voto = $this->getUser();
-        $this->setTitle("Jujuy Hidrocarburos | Votos");
+        $this->setTitle("Legislación | Votos");
         $this->data['voto'] = $voto;
         $this->data['data'] = null;
         $this->data['homeUrl'] = $this->generateUrl($this->getHomeRoute());

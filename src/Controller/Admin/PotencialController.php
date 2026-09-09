@@ -26,7 +26,7 @@ class PotencialController extends BaseController
     public function index() {
         $this->denyAccessUnlessGranted(ModuloPermission::POTENCIALES);
 
-        $this->setTitle("Jujuy Hidrocarburos | Potenciales");
+        $this->setTitle("Legislación | Potenciales");
         $this->addBreadCrumb("Inicio", false, "admin_home");
         $this->addBreadCrumb("Potenciales", true);
         $this->data['homeUrl'] = $this->generateUrl($this->getHomeRoute());
