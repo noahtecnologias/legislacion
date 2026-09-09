@@ -14,11 +14,11 @@ class Departamento
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Serializer\Groups(["departamento", "municipio", "voto"])]
+    #[Serializer\Groups(["departamento", "municipio", "voto", "compra"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Serializer\Groups(["departamento", "municipio", "voto"])]
+    #[Serializer\Groups(["departamento", "municipio", "voto", "compra"])]
     private ?string $nombre = null;
 
     #[ORM\Column]

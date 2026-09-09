@@ -1,0 +1,213 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Jujuy Hidrocarburos | Modificar Compra
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            Modificar Compra
+        </h1>
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Datos de la compra
+            </h6>
+        </div>
+
+        <div class="card-body">
+
+            <form id="formCompra">
+
+                <input
+                    type="hidden"
+                    id="_id"
+                    name="_id"
+                    value="{{ compra.id }}"
+                >
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label for="fecha" class="form-label">
+                            Fecha de la compra
+                        </label>
+
+                                        <input
+                                            type="date"
+                                            class="form-control"
+                                            id="fecha"
+                                            name="fecha"
+                                            value="{{ compra.fechaCreacion|date('Y-m-d') }}"
+                                        >
+                                    </div>
+                    {# Descripción #}
+                    <div class="col-md-6 mb-3">
+                        <label for="descripcion" class="form-label">
+                            Descripción
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="descripcion"
+                            name="descripcion"
+                            value="{{ compra.descripcion }}"
+                            maxlength="255"
+                        >
+                    </div>
+
+                    {# Unidades #}
+                    <div class="col-md-6 mb-3">
+                        <label for="unidades" class="form-label">
+                            Unidades
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="unidades"
+                            name="unidades"
+                            value="{{ compra.unidades }}"
+                            maxlength="255"
+                        >
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    {# Departamento #}
+                    <div class="col-md-6 mb-3">
+
+                        <label for="departamento" class="form-label">
+                            Departamento
+                        </label>
+
+                        <select
+                            id="departamento"
+                            name="departamento"
+                            class="form-select"
+                        >
+                            <option value="" disabled>
+                                === Seleccione un departamento ===
+                            </option>
+
+                            {% for departamento in departamentos %}
+
+                                <option
+                                    value="{{ departamento.id }}"
+                                    {% if compra.departamento and compra.departamento.id == departamento.id %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ departamento.nombre }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    {# Municipio #}
+                    <div class="col-md-6 mb-3">
+
+                        <label for="municipio" class="form-label">
+                            Municipio / Comuna
+                        </label>
+
+                        <select
+                            id="municipio"
+                            name="municipio"
+                            class="form-select"
+                        >
+                            <option value="" disabled>
+                                === Seleccione un municipio/comuna ===
+                            </option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+                {# Observación #}
+                <div class="row">
+
+                    <div class="col-md-12 mb-3">
+
+                        <label for="observacion" class="form-label">
+                            Observación
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="observacion"
+                            name="observacion"
+                            rows="4"
+                            maxlength="255"
+                        >{{ compra.observacion }}</textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="row mt-3">
+
+                    <div class="col-md-12 d-flex justify-content-end gap-2">
+
+                        <a
+                            href="{{ path('admin_compras_listado') }}"
+                            class="btn btn-secondary"
+                        >
+                            <i class="fas fa-arrow-left"></i>
+                            Volver
+                        </a>
+
+                        <button
+                            type="submit"
+                            id="btnGuardarCompra"
+                            class="btn btn-primary"
+                        >
+                            <i class="fas fa-save"></i>
+                            Guardar cambios
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        var rutasCompra = {
+            actualizar: "{{ path('admin_ajax_compra_update') }}",
+            municipios: "{{ path('admin_ajax_compra_municipios') }}",
+            listado: "{{ path('admin_compras_listado') }}"
+        };
+
+        var compraMunicipioId = "{{ compra.municipio ? compra.municipio.id : '' }}";
+    </script>
+
+    <script src="{{ asset('js/controller/compra/editar.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,218 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .formulario-compra {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .formulario-compra .form-label {
+            font-weight: 500;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container-fluid px-4">
+
+        <h1 class="mt-4">Nueva compra</h1>
+
+        <br/>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card mb-4">
+
+                    <div class="card-header">
+                        <i class="fas fa-shopping-cart me-1"></i>
+                        Nueva compra
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formCompra">
+
+                            <div class="formulario-compra">
+
+                                <div class="row">
+
+                                    {# Fecha de la compra #}
+                                    <div class="col-md-6 mb-3">
+                                        <label for="fecha" class="form-label">
+                                            Fecha de la compra
+                                        </label>
+
+                                        <input
+                                            type="date"
+                                            class="form-control"
+                                            id="fecha"
+                                            name="fecha"
+                                        
+                                        >
+                                    </div>
+                                    {# Descripción #}
+                                    <div class="col-md-6 mb-3">
+                                        <label for="descripcion" class="form-label">
+                                            Descripción
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="descripcion"
+                                            name="descripcion"
+                                            maxlength="255"
+                                        
+                                        >
+                                    </div>
+
+                                    {# Unidades #}
+                                    <div class="col-md-6 mb-3">
+                                        <label for="unidades" class="form-label">
+                                            Unidades
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="unidades"
+                                            name="unidades"
+                                            maxlength="255"
+                                        >
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    {# Departamento #}
+                                    <div class="col-md-6 mb-3">
+
+                                        <label for="departamento" class="form-label">
+                                            Departamento
+                                        </label>
+
+                                        <select
+                                            id="departamento"
+                                            name="departamento"
+                                            class="form-select"
+                                        >
+                                            <option value="" disabled selected>
+                                                == Seleccione un departamento ===
+                                            </option>
+                                            {% for departamento in departamentos %}
+                                                <option value="{{ departamento.id }}">
+                                                    {{ departamento.nombre }}
+                                                </option>
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </div>
+
+                                    {# Municipio #}
+                                    <div class="col-md-6 mb-3">
+
+                                        <label for="municipio" class="form-label">
+                                            Municipio/Comuna
+                                        </label>
+
+                                        <select
+                                            id="municipio"
+                                            name="municipio"
+                                            class="form-select"
+                                        
+                                            disabled
+                                        >
+                                            <option value="" disabled selected>
+                                                === Seleccione Municipio/Comuna ===
+                                            </option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    {# Observación #}
+                                    <div class="col-md-12 mb-3">
+
+                                        <label for="observacion" class="form-label">
+                                            Observación
+                                        </label>
+
+                                        <textarea
+                                            class="form-control"
+                                            id="observacion"
+                                            name="observacion"
+                                            rows="4"
+                                            maxlength="255"
+                                        ></textarea>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row mt-4">
+
+                                <div class="col-md-12">
+
+                                    <button
+                                        type="submit"
+                                        id="btnGuardarCompra"
+                                        class="btn btn-primary"
+                                    >
+                                        <i class="fas fa-save"></i>
+                                        Guardar
+                                    </button>
+
+                                    <a
+                                        href="{{ path('admin_compras_listado') }}"
+                                        class="btn btn-secondary"
+                                    >
+                                        Volver
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</main>
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+    var rutasCompra = {
+        guardar: "{{ path('admin_ajax_compra_nuevo') }}",
+        municipios: "{{ path('admin_ajax_compra_municipios') }}",
+        comprasListadoUrl: "{{ path('admin_usuarios_listado') }}"
+    };
+</script>
+
+<script src="{{ asset('js/controller/compra/nueva.js') }}"></script>
+
+{% endblock %}

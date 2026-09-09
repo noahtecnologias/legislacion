@@ -112,6 +112,47 @@
 
                 {% endif %}
 
+                {% if is_granted('MODULO_COMPRAS') %}
+
+                    <a class="nav-link collapsed"
+                       href="#"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#collapseCompras"
+                       aria-expanded="false"
+                       aria-controls="collapseCompras">
+
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+
+                        Compras
+
+                        <div class="sb-sidenav-collapse-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+                    </a>
+
+                    <div class="collapse"
+                         id="collapseCompras"
+                         aria-labelledby="headingCompras"
+                         data-bs-parent="#sidenavAccordion">
+
+                        <nav class="sb-sidenav-menu-nested nav">
+
+                            <a class="nav-link"
+                               href="{{ path('admin_compras_listado') }}">
+                                Listado
+                            </a>
+
+                            <a class="nav-link"
+                               href="">
+                                Nueva
+                            </a>
+                        </nav>
+                    </div>
+
+                {% endif %}
+
             </div>
         </div>
 

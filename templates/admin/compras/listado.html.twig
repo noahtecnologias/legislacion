@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #datatablesSimple td:nth-child(6) {
+            min-width: 250px;
+        }
+
+        #datatablesSimple .badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .filtros-votos {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .total-votos {
+            font-weight: bold;
+            background-color: #f8f9fa;
+        }
+
+        .total-votos td {
+            font-weight: bold;
+        }
+        .datatable-dropdown {
+            margin-bottom: 15px;
+        }
+
+        .datatable-top {
+            padding-bottom: 10px;
+        }
+
+        .datatable-bottom {
+            padding-top: 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Listado de compras</h1>
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <a href="{{ path('admin_compra_nuevo') }}" title="Nueva Compra" class="btn btn-primary">Nueva</a>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card mb-4">
+
+                    <div class="card-header">
+                        <i class="fas fa-shopping-cart me-1"></i>
+                        Compras
+                    </div>
+
+                    <div class="card-body">
+
+                        {# TABLA #}
+                        <table id="datatablesSimple">
+                            <thead>
+                                <tr>
+                                    <th>Departamento</th>
+                                    <th>Municipio/Comuna</th>
+                                    <th>Fecha</th>
+                                    <th>Descripción</th>
+                                    <th>Unidades</th>
+                                    <th>Observación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row mb-3">
+                            <div class="d-grid gap-2 d-md-block">
+                                <a
+                                    href="{{ homeUrl }}"
+                                    id="volverCompras"
+                                    title="Volver"
+                                    class="btn btn-secondary">
+                                    Volver
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('node_modules/simple-datatables/dist/umd/simple-datatables.js') }}"></script>
+
+    <script>
+        var rutasCompras = {
+            listado: "{{ path('admin_compras_listado') }}",
+            nuevo: "{{ path('admin_compra_nuevo') }}",
+            editar: "{{ path('admin_compra_update', {'id': '__ID__'}) }}",
+            buscar: "{{ path('admin_ajax_compra_listado') }}",
+            crear: "{{ path('admin_ajax_compra_nuevo') }}",
+            actualizar: "{{ path('admin_ajax_compra_update') }}",
+            eliminar: "{{ path('admin_ajax_compra_delete', {'id': '__ID__'}) }}"
+        };
+    </script>
+
+    <script src="{{ asset('js/controller/compra/compras.js') }}"></script>
+{% endblock %}

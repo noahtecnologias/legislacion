@@ -12,11 +12,11 @@ class Municipio
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Serializer\Groups(["municipio", "departamento", "voto"])]
+    #[Serializer\Groups(["municipio", "departamento", "voto", "compra"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Serializer\Groups(["municipio", "departamento", "voto"])]
+    #[Serializer\Groups(["municipio", "departamento", "voto", "compra"])]
     private ?string $nombre = null;
 
     #[ORM\Column]
