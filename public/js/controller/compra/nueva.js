@@ -180,7 +180,7 @@ $(document).ready(function () {
                         type: "success"
                     }, function () {
 
-                        window.location = comprasListadoUrl;
+                        window.location = rutasCompra.comprasListadoUrl;
 
                     });
 

@@ -38,13 +38,13 @@ label.error {
 /* 1. CAMBIO DE COLOR NAVBAR SUPERIOR */
 .sb-topnav.navbar.bg-dark {
     /* Un verde más oscuro para la parte superior */
-    background-color: #08261a !important; 
+    background-color: #000 !important; 
 }
 
 /* 2. CAMBIO DE COLOR SIDEBAR LATERAL */
 .sb-sidenav-dark {
     /* El verde corporativo de la imagen */
-    background-color: #0e3c28 !important; 
+    background-color: #000 !important; 
 }
 
 /* 3. AJUSTE DE LOS TÍTULOS (Inicio, Módulos) */
