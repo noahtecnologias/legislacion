@@ -74,6 +74,52 @@ $(document).ready(function () {
         });
     }
 
+    function actualizarMunicipios(votos, departamentoId) {
+
+        const select = $("#filtroMunicipio");
+
+        // Limpiar municipios actuales
+        select.find("option:not(:first)").remove();
+
+        const municipios = new Map();
+
+        votos.forEach(function (voto) {
+
+            if (!voto.municipio || !voto.departamento) {
+                return;
+            }
+
+            // Si hay departamento seleccionado,
+            // solo tomamos los municipios de ese departamento
+            if (
+                departamentoId &&
+                String(voto.departamento.id) !== String(departamentoId)
+            ) {
+                return;
+            }
+
+            municipios.set(
+                voto.municipio.id,
+                voto.municipio
+            );
+        });
+
+        [...municipios.values()]
+            .sort((a, b) => a.nombre.localeCompare(b.nombre))
+            .forEach(function (municipio) {
+
+                select.append(
+                    $('<option>', {
+                        value: municipio.id,
+                        text: municipio.nombre
+                    })
+                );
+            });
+
+        // Volver siempre a "Todos"
+        select.val("");
+    }
+
     /**
      * Carga los valores de los filtros
      */
@@ -91,17 +137,20 @@ $(document).ready(function () {
                 .filter(valor => valor !== null && valor !== undefined)
         )].sort();
 
-        const departamentos = [...new Set(
+        const departamentos = [...new Map(
             votos
                 .filter(voto => voto.departamento)
-                .map(voto => voto.departamento.nombre)
-        )].sort();
+                .map(voto => [
+                    voto.departamento.id,
+                    voto.departamento
+                ])
+        ).values()]
+            .sort((a, b) => a.nombre.localeCompare(b.nombre));
 
-        const municipios = [...new Set(
-            votos
-                .filter(voto => voto.municipio)
-                .map(voto => voto.municipio.nombre)
-        )].sort();
+        llenarSelectDepartamentos("#filtroDepartamento", departamentos);
+
+        // Al iniciar mostramos todos los municipios
+        actualizarMunicipios(votos, "");
 
         const periodos = [...new Set(
             votos
@@ -111,9 +160,24 @@ $(document).ready(function () {
 
         llenarSelect("#filtroLista", listas);
         llenarSelect("#filtroFrente", frentes);
-        llenarSelect("#filtroDepartamento", departamentos);
-        llenarSelect("#filtroMunicipio", municipios);
         llenarSelect("#filtroPeriodo", periodos);
+    }
+
+    function llenarSelectDepartamentos(selector, departamentos) {
+
+        const select = $(selector);
+
+        select.find("option:not(:first)").remove();
+
+        departamentos.forEach(function (departamento) {
+
+            select.append(
+                $('<option>', {
+                    value: departamento.id,
+                    text: departamento.nombre
+                })
+            );
+        });
     }
 
     /**
@@ -139,10 +203,23 @@ $(document).ready(function () {
      */
     function inicializarEventosFiltros() {
 
+        $("#filtroDepartamento").on("change", function () {
+
+            const departamentoId = $(this).val();
+
+            // Actualizamos los municipios
+            actualizarMunicipios(
+                votosOriginales,
+                departamentoId
+            );
+
+            // Aplicamos nuevamente todos los filtros
+            aplicarFiltros();
+        });
+
         $(
             "#filtroLista, " +
             "#filtroFrente, " +
-            "#filtroDepartamento, " +
             "#filtroMunicipio, " +
             "#filtroPeriodo"
         ).on("change", function () {
@@ -157,6 +234,12 @@ $(document).ready(function () {
             $("#filtroDepartamento").val("");
             $("#filtroMunicipio").val("");
             $("#filtroPeriodo").val("");
+
+            // Restauramos todos los municipios
+            actualizarMunicipios(
+                votosOriginales,
+                ""
+            );
 
             actualizarTabla(votosOriginales);
         });
@@ -175,11 +258,11 @@ $(document).ready(function () {
 
         const votosFiltrados = votosOriginales.filter(function (voto) {
 
-            if (lista && voto.lista !== lista) {
+            if (lista && String(voto.lista) !== String(lista)) {
                 return false;
             }
 
-            if (frente && voto.frente !== frente) {
+            if (frente && String(voto.frente) !== String(frente)) {
                 return false;
             }
 
@@ -187,7 +270,7 @@ $(document).ready(function () {
                 departamento &&
                 (
                     !voto.departamento ||
-                    voto.departamento.nombre !== departamento
+                    String(voto.departamento.id) !== String(departamento)
                 )
             ) {
                 return false;
@@ -197,13 +280,16 @@ $(document).ready(function () {
                 municipio &&
                 (
                     !voto.municipio ||
-                    voto.municipio.nombre !== municipio
+                    String(voto.municipio.id) !== String(municipio)
                 )
             ) {
                 return false;
             }
 
-            if (periodo && voto.periodo !== periodo) {
+            if (
+                periodo &&
+                String(voto.periodo) !== String(periodo)
+            ) {
                 return false;
             }
 
@@ -221,7 +307,6 @@ $(document).ready(function () {
         let total = 0;
 
         const datos = votos.map(function (voto) {
-
             const resultado = parseInt(voto.resultado, 10) || 0;
 
             total += resultado;
@@ -295,7 +380,6 @@ $(document).ready(function () {
          * cargados en la tabla.
          */
         votosOriginales.forEach(function (voto) {
-
             const texto = [
                 voto.lista,
                 voto.frente,
