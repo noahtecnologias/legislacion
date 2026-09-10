@@ -334,11 +334,7 @@ $(document).ready(function () {
             data: datos
         });
 
-        /*
-         * Actualizamos el total correspondiente
-         * a los filtros seleccionados.
-         */
-        actualizarTotal(total);
+        actualizarTablaResultados(votos);
 
         /*
          * Volvemos a la primera página.
@@ -399,6 +395,84 @@ $(document).ready(function () {
         });
 
         actualizarTotal(total);
+    }
+
+    function actualizarTablaResultados(votos) {
+
+        const resultados = new Map();
+
+        votos.forEach(function (voto) {
+
+            const lista = voto.lista ?? '';
+            const frente = voto.frente ?? '';
+            const periodo = voto.periodo ?? '';
+            const resultado = parseInt(voto.resultado, 10) || 0;
+
+            /*
+            * Agrupamos por:
+            * Lista + Frente + Periodo
+            */
+            const clave = [
+                lista,
+                frente,
+                periodo
+            ].join('|');
+
+            if (!resultados.has(clave)) {
+
+                resultados.set(clave, {
+                    lista: lista,
+                    frente: frente,
+                    resultado: 0,
+                    periodo: periodo
+                });
+            }
+
+            resultados.get(clave).resultado += resultado;
+        });
+
+        const datos = [...resultados.values()];
+
+        const tbody = $("#tablaResultados tbody");
+
+        tbody.empty();
+
+        if (datos.length === 0) {
+
+            tbody.append(`
+                <tr>
+                    <td colspan="4" class="text-center">
+                        No hay resultados para los filtros seleccionados
+                    </td>
+                </tr>
+            `);
+
+            return;
+        }
+
+        datos.forEach(function (resultado) {
+
+            tbody.append(`
+                <tr>
+                    <td>${escapeHtml(resultado.lista)}</td>
+                    <td>${escapeHtml(resultado.frente)}</td>
+                    <td class="text-end">
+                        ${resultado.resultado.toLocaleString('es-AR')}
+                    </td>
+                    <td>${escapeHtml(resultado.periodo)}</td>
+                </tr>
+            `);
+        });
+    }
+
+    function escapeHtml(valor) {
+
+        return String(valor)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 
     function init() {
