@@ -41,6 +41,19 @@
         .datatable-bottom {
             padding-top: 15px;
         }
+        #tablaResultados {
+            margin-top: 10px;
+        }
+
+        #tablaResultados th,
+        #tablaResultados td {
+            vertical-align: middle;
+        }
+
+        #tablaResultados td:nth-child(3) {
+            text-align: right;
+            font-weight: bold;
+        }
     </style>
 {% endblock %}
 
@@ -142,11 +155,28 @@
                             <tbody>
                             </tbody>
                         </table>
-                        <div class="text-end mt-3">
-                            <strong>
-                                Total de resultados:
-                                <span id="totalResultados">0</span>
-                            </strong>
+                        {# TABLA DE RESULTADOS #}
+                        <div class="mt-4">
+
+                            <h5>
+                                <i class="fas fa-chart-bar me-1"></i>
+                                Resultados
+                            </h5>
+
+                            <table id="tablaResultados" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Lista</th>
+                                        <th>Frente</th>
+                                        <th>Resultado</th>
+                                        <th>Periodo</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+                            </table>
+
                         </div>
 
                     </div>
