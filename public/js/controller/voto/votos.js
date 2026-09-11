@@ -1,7 +1,6 @@
 $(document).ready(function () {
 
     let votosOriginales = [];
-    let datatable = null;
 
     init();
 
@@ -22,9 +21,7 @@ $(document).ready(function () {
 
                 cargarFiltros(votosOriginales);
 
-                inicializarDataTable();
-
-                actualizarTabla(votosOriginales);
+                actualizarTablaResultados(votosOriginales);
 
                 inicializarEventosFiltros();
             },
@@ -39,38 +36,6 @@ $(document).ready(function () {
                     "error"
                 );
             }
-        });
-    }
-
-    /**
-     * Inicializa Simple-DataTables
-     */
-    function inicializarDataTable() {
-
-        const tabla = document.getElementById('datatablesSimple');
-
-        if (!tabla) {
-            return;
-        }
-
-        datatable = new simpleDatatables.DataTable(tabla, {
-            perPage: 500,
-            perPageSelect: [500, 400, 300, 200, 100, 50, 25, 10],
-
-            labels: {
-                placeholder: "Buscar...",
-                perPage: "registros por página",
-                noRows: "No hay registros",
-                info: "Mostrando {start} a {end} de {rows} registros"
-            }
-        });
-
-        /*
-         * Cuando Simple-DataTables realiza una búsqueda
-         * actualizamos el total visible.
-         */
-        datatable.on("datatable.search", function () {
-            actualizarTotalBusqueda();
         });
     }
 
@@ -241,7 +206,7 @@ $(document).ready(function () {
                 ""
             );
 
-            actualizarTabla(votosOriginales);
+            actualizarTablaResultados(votosOriginales);
         });
     }
 
@@ -296,107 +261,13 @@ $(document).ready(function () {
             return true;
         });
 
-        actualizarTabla(votosFiltrados);
+        actualizarTablaResultados(votosFiltrados);
     }
 
     /**
-     * Actualiza los datos de Simple-DataTables
+     * Agrupa los votos filtrados por Lista + Frente + Periodo
+     * y actualiza la tabla de resultados
      */
-    function actualizarTabla(votos) {
-
-        let total = 0;
-
-        const datos = votos.map(function (voto) {
-            const resultado = parseInt(voto.resultado, 10) || 0;
-
-            total += resultado;
-
-            return [
-                voto.lista ?? '',
-                voto.frente ?? '',
-                resultado.toLocaleString('es-AR'),
-                voto.departamento?.nombre ?? '',
-                voto.municipio?.nombre ?? '',
-                voto.periodo ?? ''
-            ];
-        });
-
-        /*
-         * En Simple-DataTables 10.x
-         * rows es una propiedad.
-         *
-         * Para reemplazar todos los datos,
-         * limpiamos data y volvemos a insertar.
-         */
-        datatable.data.data = [];
-
-        datatable.insert({
-            data: datos
-        });
-
-        actualizarTablaResultados(votos);
-
-        /*
-         * Volvemos a la primera página.
-         */
-        datatable.page(1);
-    }
-
-    /**
-     * Actualiza el total
-     */
-    function actualizarTotal(total) {
-
-        $("#totalResultados").text(
-            total.toLocaleString('es-AR')
-        );
-    }
-
-    /**
-     * Actualiza el total teniendo en cuenta
-     * la búsqueda interna de Simple-DataTables.
-     */
-    function actualizarTotalBusqueda() {
-
-        /*
-         * Si no hay búsqueda, no hacemos nada.
-         * El total ya corresponde a los filtros.
-         */
-        if (!datatable.searching) {
-            return;
-        }
-
-        const textoBusqueda =
-            datatable.searching.toLowerCase();
-
-        let total = 0;
-
-        /*
-         * Buscamos sobre los datos actualmente
-         * cargados en la tabla.
-         */
-        votosOriginales.forEach(function (voto) {
-            const texto = [
-                voto.lista,
-                voto.frente,
-                voto.resultado,
-                voto.departamento?.nombre,
-                voto.municipio?.nombre,
-                voto.periodo
-            ]
-                .filter(valor => valor !== null && valor !== undefined)
-                .join(" ")
-                .toLowerCase();
-
-            if (texto.includes(textoBusqueda)) {
-
-                total += parseInt(voto.resultado, 10) || 0;
-            }
-        });
-
-        actualizarTotal(total);
-    }
-
     function actualizarTablaResultados(votos) {
 
         const resultados = new Map();
@@ -405,16 +276,18 @@ $(document).ready(function () {
 
             const lista = voto.lista ?? '';
             const frente = voto.frente ?? '';
+            const municipio = voto.municipio?.nombre ?? '';
             const periodo = voto.periodo ?? '';
             const resultado = parseInt(voto.resultado, 10) || 0;
 
             /*
             * Agrupamos por:
-            * Lista + Frente + Periodo
+            * Lista + Frente + Municipio + Periodo
             */
             const clave = [
                 lista,
                 frente,
+                municipio,
                 periodo
             ].join('|');
 
@@ -423,6 +296,7 @@ $(document).ready(function () {
                 resultados.set(clave, {
                     lista: lista,
                     frente: frente,
+                    municipio: municipio,
                     resultado: 0,
                     periodo: periodo
                 });
@@ -441,7 +315,7 @@ $(document).ready(function () {
 
             tbody.append(`
                 <tr>
-                    <td colspan="4" class="text-center">
+                    <td colspan="5" class="text-center">
                         No hay resultados para los filtros seleccionados
                     </td>
                 </tr>
@@ -459,6 +333,7 @@ $(document).ready(function () {
                     <td class="text-end">
                         ${resultado.resultado.toLocaleString('es-AR')}
                     </td>
+                    <td>${escapeHtml(resultado.municipio)}</td>
                     <td>${escapeHtml(resultado.periodo)}</td>
                 </tr>
             `);

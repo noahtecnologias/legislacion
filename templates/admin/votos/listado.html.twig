@@ -6,15 +6,6 @@
 
 {% block stylesheets %}
     <style>
-        #datatablesSimple td:nth-child(6) {
-            min-width: 250px;
-        }
-
-        #datatablesSimple .badge {
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
         .filtros-votos {
             background-color: #f8f9fa;
             padding: 15px;
@@ -30,17 +21,7 @@
         .total-votos td {
             font-weight: bold;
         }
-        .datatable-dropdown {
-            margin-bottom: 15px;
-        }
 
-        .datatable-top {
-            padding-bottom: 10px;
-        }
-
-        .datatable-bottom {
-            padding-top: 15px;
-        }
         #tablaResultados {
             margin-top: 10px;
         }
@@ -139,22 +120,6 @@
                             </div>
                         </div>
 
-                        {# TABLA #}
-                        <table id="datatablesSimple">
-                            <thead>
-                                <tr>
-                                    <th>Lista</th>
-                                    <th>Frente</th>
-                                    <th>Resultado</th>
-                                    <th>Departamento</th>
-                                    <th>Municipio/Comuna</th>
-                                    <th>Periodo</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                            </tbody>
-                        </table>
                         {# TABLA DE RESULTADOS #}
                         <div class="mt-4">
 
@@ -169,6 +134,7 @@
                                         <th>Lista</th>
                                         <th>Frente</th>
                                         <th>Resultado</th>
+                                        <th>Municipio/Comuna</th>
                                         <th>Periodo</th>
                                     </tr>
                                 </thead>
@@ -204,8 +170,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('node_modules/simple-datatables/dist/umd/simple-datatables.js') }}"></script>
-
     <script>
         var rutasVoto = {
             listado: "{{ path('admin_votos_listado') }}",
